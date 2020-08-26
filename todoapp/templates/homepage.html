@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <title>Tommy's To-Do List App</title>
+    </head>
+
+    <body>
+
+        <script src="{% static "script.js" %}"></script>
+        <div id = "todo">
+            <h1>TO-DO LIST</h1>
+            <ul class="todos">
+                <li>test</li>
+            </ul>
+            <input type="text" placeholder="Add To-Do"
+            
+            
+            <div class="input-group">
+                <button class="save">Create</button>
+                <button class="delete">Delete</button>
+            </div>
+
+        </div>
+    </body>
+
+</html>
