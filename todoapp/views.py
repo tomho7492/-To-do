@@ -53,3 +53,12 @@ def addNote(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return HttpResponseRedirect(reverse("index"))
+
+def remove(request):
+    if request.method == 'POST':
+        content = request.POST["deleteInput"][1:]
+        print(f"HERE -> {content}");
+        Todo.objects.filter(User=request.user, content=content).first().delete()
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return HttpResponseRedirect(reverse("index"))

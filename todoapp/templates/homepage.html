@@ -2,30 +2,36 @@
 {% load static %}
 <html>
     <head>
-        
+        <link rel="stylesheet" href="{% static "todo.css" %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <title>Tommy's To-Do List App</title>
     </head>
 
     <body>
-
+        <script src="{% static "script.js" %}"></script>
      
         <div id = "todo">
             <h1>TO-DO LIST</h1>
-            <ul class="todos">
+            <ul class="todos" >
                 {% for toDo in toDosList %}
-                <li>{{toDo}}</li>
+                <div>
+                <text><button class="delete">❌</button> <button class="complete">✔️</button><text>{{toDo}}</text></text>
+                </div>
                 {% endfor %}
             </ul>
-            
-            <form action="{% url 'addNote' %}"  method="post" id="toDoForm" name="toDoForm" onsubmit=" event.preventDefault(); this.submit();">
+            <form action="{% url 'remove' %}" method="post" name="deleteForm">
+                {% csrf_token %}
+                <input type="hidden" name="deleteInput">
+
+            </form>
+
+            <form action="{% url 'addNote' %}"  method="post" id="toDoForm" name="toDoForm">
                 {% csrf_token %}
             <input type="text"  placeholder="Add To-Do" name="toDoContent" id="toDoContent">
             
             
             <div class="input-group">
                 <button type="submit" class="save">Create</button>
-                <button class="delete">Delete</button>
             </div>
         </form>
 

@@ -1,0 +1,5 @@
+ul.todos li:before {
+    position: absolute;
+    left: -1em;
+    content: "+";
+  }
