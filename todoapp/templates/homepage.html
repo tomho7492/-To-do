@@ -13,17 +13,19 @@
         <div id = "todo">
             <h1>TO-DO LIST</h1>
             <ul class="todos" >
-                {% for toDo in toDosList %}
+                
+                {% for toDo in toDos %}
                 <div>
-                <text><button class="delete">❌</button> <button class="complete">✔️</button><text>{{toDo}}</text></text>
+                    <button class="delete">❌</button> <button class="complete">✔️</button>
+                
+                    <text class ="toDoText">{% if toDo.completed == True %}<strike>{{toDo.content}}</strike>{% else %}{{toDo.content}}{% endif %}</text>
+                
                 </div>
                 {% endfor %}
             </ul>
-            <form action="{% url 'remove' %}" method="post" name="deleteForm">
-                {% csrf_token %}
-                <input type="hidden" name="deleteInput">
 
-            </form>
+
+         
 
             <form action="{% url 'addNote' %}"  method="post" id="toDoForm" name="toDoForm">
                 {% csrf_token %}
@@ -36,6 +38,15 @@
         </form>
 
         </div>
+        <form action="{% url 'remove' %}" method="post" name="deleteForm">
+            {% csrf_token %}
+            <input type="hidden" name="deleteInput">
+        </form>
+
+        <form action="{% url 'markCompleted' %}" method="post" name="completeForm">
+            {% csrf_token %}
+            <input type="hidden" name="completeInput">
+        </form>
     </body>
 
 </html>

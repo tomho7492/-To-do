@@ -10,10 +10,9 @@ def index(request):
     if not request.user.is_authenticated:
         return render(request, 'login.html')
     toDos = Todo.objects.filter(User=request.user)
-    toDosList = []
+    context = {"toDos":toDos}
     for toDo in toDos:
-        toDosList.append(toDo.content)
-    context = {"toDosList":toDosList}
+        print(toDo.content)
     return render(request, 'homepage.html', context)
 
 def register(request):
@@ -44,21 +43,27 @@ def login(request):
         return render(request, 'login.html')
 def addNote(request):
     if request.method == 'POST':
-
         content = request.POST["toDoContent"]
-        print(f"content: {content}")
         toDo = Todo.objects.create(User=request.user, content=content)
         toDo.save()
         print(toDo)
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return HttpResponseRedirect(reverse("index"))
+
+    return HttpResponseRedirect(reverse("index"))
 
 def remove(request):
     if request.method == 'POST':
-        content = request.POST["deleteInput"][1:]
-        print(f"HERE -> {content}");
+        content = request.POST["deleteInput"]
         Todo.objects.filter(User=request.user, content=content).first().delete()
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return HttpResponseRedirect(reverse("index"))
+
+    return HttpResponseRedirect(reverse("index"))
+
+def markCompleted(request):
+    if request.method == 'POST':
+        content = request.POST["completeInput"]
+        print(f"content: {content}")
+
+        todo = Todo.objects.filter(User=request.user, content=content).first()
+        todo.completed = True
+        print(f" marked complete: {todo.content} is {todo.completed}")
+        todo.save()
+    return HttpResponseRedirect(reverse("index"))
