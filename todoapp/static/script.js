@@ -3,8 +3,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var inputField = document.querySelector("input[type = 'text']");
     var toDoUL = document.querySelector("ul");
     var createButton = document.querySelector(".save");
-    var test = "apples";
+    var form = document.querySelector('#toDoForm')
     
+
     //if enter key is pressed, add list item
     inputField.addEventListener("keypress", function(keyPressed){
         if(keyPressed.which === 13){
@@ -12,9 +13,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 return 0;
             } else {
             var li = document.createElement("li");
-            li.append(this.value);
+            var content = inputField.value
+            li.append(content);
             toDoUL.appendChild(li);
-            this.value = "";
+    
             }
     }
     });
@@ -25,9 +27,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return 0;
         } else {
             var li = document.createElement("li");
-            li.append(inputField.value);
+            var content = inputField.value
+            li.append(content);
             toDoUL.appendChild(li);
-            inputField.value = "";
+          
         }
 
     });

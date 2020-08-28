@@ -2,13 +2,19 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.forms import User
+from .models import Todo
 from django.contrib.auth import authenticate, login as auth_login, logout
 
 # Create your views here.
 def index(request):
     if not request.user.is_authenticated:
         return render(request, 'login.html')
-    return render(request, 'homepage.html')
+    toDos = Todo.objects.filter(User=request.user)
+    toDosList = []
+    for toDo in toDos:
+        toDosList.append(toDo.content)
+    context = {"toDosList":toDosList}
+    return render(request, 'homepage.html', context)
 
 def register(request):
     if request.user.is_authenticated:
@@ -36,3 +42,14 @@ def login(request):
             return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, 'login.html')
+def addNote(request):
+    if request.method == 'POST':
+
+        content = request.POST["toDoContent"]
+        print(f"content: {content}")
+        toDo = Todo.objects.create(User=request.user, content=content)
+        toDo.save()
+        print(toDo)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return HttpResponseRedirect(reverse("index"))

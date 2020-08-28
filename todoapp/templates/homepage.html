@@ -9,19 +9,25 @@
 
     <body>
 
-        <script src="{% static "script.js" %}"></script>
+     
         <div id = "todo">
             <h1>TO-DO LIST</h1>
             <ul class="todos">
-                <li>test</li>
+                {% for toDo in toDosList %}
+                <li>{{toDo}}</li>
+                {% endfor %}
             </ul>
-            <input type="text" placeholder="Add To-Do"
+            
+            <form action="{% url 'addNote' %}"  method="post" id="toDoForm" name="toDoForm" onsubmit=" event.preventDefault(); this.submit();">
+                {% csrf_token %}
+            <input type="text"  placeholder="Add To-Do" name="toDoContent" id="toDoContent">
             
             
             <div class="input-group">
-                <button class="save">Create</button>
+                <button type="submit" class="save">Create</button>
                 <button class="delete">Delete</button>
             </div>
+        </form>
 
         </div>
     </body>
