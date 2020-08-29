@@ -16,7 +16,7 @@
                 
                 {% for toDo in toDos %}
                 <div>
-                    <button class="delete">❌</button> <button class="complete">✔️</button>
+                    <button class = "edit">📝</button><button class="delete">❌</button> <button class="complete">✔️</button> 
                 
                     <text class ="toDoText">{% if toDo.completed == True %}<strike>{{toDo.content}}</strike>{% else %}{{toDo.content}}{% endif %}</text>
                 
@@ -38,6 +38,11 @@
         </form>
 
         </div>
+        <form action="{% url 'edit' %}" method="post" name="editForm">
+            {% csrf_token %}
+            <input type="hidden" name="editInput">
+        </form>
+        
         <form action="{% url 'remove' %}" method="post" name="deleteForm">
             {% csrf_token %}
             <input type="hidden" name="deleteInput">
@@ -47,6 +52,11 @@
             {% csrf_token %}
             <input type="hidden" name="completeInput">
         </form>
+
+        
+       
+
+
     </body>
 
 </html>

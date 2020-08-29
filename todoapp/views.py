@@ -67,3 +67,15 @@ def markCompleted(request):
         print(f" marked complete: {todo.content} is {todo.completed}")
         todo.save()
     return HttpResponseRedirect(reverse("index"))
+
+def edit(request):
+    if request.method == 'POST':
+        content = request.POST["editInput"]
+        content = content.split(",")
+        old = content[0]
+        new = content[1]
+        todo = Todo.objects.filter(User=request.user, content=old).first()
+        todo.content = new
+        todo.save()
+
+    return HttpResponseRedirect(reverse("index"))
