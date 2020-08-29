@@ -7,6 +7,53 @@ window.addEventListener('DOMContentLoaded', (event) => {
     deleteButtons = document.querySelectorAll(".delete");
     completeButtons = document.querySelectorAll(".complete");
     editButtons = document.querySelectorAll(".edit");
+    radioButtons = document.querySelectorAll('input[name="filter"]');
+    currentFilter = all;
+
+    //add eventlistener for the filter radio buttons
+    radioButtons.forEach(function(currentBtn){
+        currentBtn.addEventListener("click", () => {
+            currentFilter = currentBtn.id;
+           var all = document.querySelectorAll('text[id="all"]');
+           var completed = document.querySelectorAll('text[id="completedToDo"]');
+           var pending = document.querySelectorAll('text[id="pendingToDo"]');
+           var allButtons = document.querySelectorAll('#allEdit, #allComplete, #allDelete');
+           var pendingButtons = document.querySelectorAll('#pendingEdit, #pendingComplete, #pendingDelete');
+           var completedButtons = document.querySelectorAll('#completedEdit, #completedComplete, #completedDelete')
+            document.querySelector
+            if (currentFilter == "all"){
+                all.forEach(x => x.removeAttribute("hidden"));
+                allButtons.forEach(x=> x.removeAttribute("hidden"));
+
+                completed.forEach(x=> x.setAttribute("hidden", true)); 
+                completedButtons.forEach(x=> x.setAttribute("hidden", true))
+
+                pending.forEach(x=> x.setAttribute("hidden", true));
+                pendingButtons.forEach(x=> x.setAttribute("hidden", true));
+            }
+            else if (currentFilter == "pending"){
+                all.forEach(x => x.setAttribute("hidden", true));
+                allButtons.forEach(x=> x.setAttribute("hidden", true));
+
+                completed.forEach(x => x.setAttribute("hidden", true));
+                completedButtons.forEach(x=> x.setAttribute("hidden", true));
+
+                pending.forEach(x => x.removeAttribute("hidden"));
+                pendingButtons.forEach(x=> x.removeAttribute("hidden"));
+            }
+            else {
+                all.forEach(x => x.setAttribute("hidden", true));
+                allButtons.forEach(x=> x.setAttribute("hidden", true));
+
+
+                completed.forEach(x => x.removeAttribute("hidden"));
+                completedButtons.forEach(x=> x.removeAttribute("hidden"));
+
+                pending.forEach(x=> x.setAttribute("hidden", true));
+                pendingButtons.forEach(x=> x.setAttribute("hidden", true));            }
+
+        });
+    });
 
     //add eventlistener to submit form for each delete button
     deleteButtons.forEach(function(currentBtn){
