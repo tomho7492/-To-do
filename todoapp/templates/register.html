@@ -20,7 +20,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-
+    {% if message %}
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    {% endif %}
     <title>Todo App</title>
 </head>
 <body>

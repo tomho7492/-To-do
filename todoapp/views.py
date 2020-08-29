@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.forms import User
 from .models import Todo
-from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
 # Create your views here.
 def index(request):
@@ -23,24 +23,29 @@ def register(request):
         password = request.POST["password"]
         print(email)
         print(password)
-        user = User.objects.create_user(username=email, password=password)
-        user.save()
+        try:
+            user = User.objects.create_user(username=email, password=password)
+            user.save()
+        except:
+            context = {"message":"That e-mail is already being used."}
+            return render(request, 'register.html', context)
         return HttpResponseRedirect(reverse("index"))
     return render(request, 'register.html')
 
 def login(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("index"))
-    if request.method == 'POST':
+    elif request.method == 'POST':
         email = request.POST["email-address"]
         password = request.POST["password"]
         user = authenticate(request, username=email, password=password)
-        print(user)
         if user is not None:
             auth_login(request, user)
-            return HttpResponseRedirect(reverse("index"))
-    else:
-        return render(request, 'login.html')
+        else:
+            context = {"message": "Invalid Login"}
+            return render(request, 'login.html', context)
+    return HttpResponseRedirect(reverse("index"))
+
 def addNote(request):
     if request.method == 'POST':
         content = request.POST["toDoContent"]
@@ -64,7 +69,6 @@ def markCompleted(request):
 
         todo = Todo.objects.filter(User=request.user, content=content).first()
         todo.completed = True
-        print(f" marked complete: {todo.content} is {todo.completed}")
         todo.save()
     return HttpResponseRedirect(reverse("index"))
 
@@ -78,4 +82,8 @@ def edit(request):
         todo.content = new
         todo.save()
 
+    return HttpResponseRedirect(reverse("index"))
+
+def logout(request):
+    auth_logout(request)
     return HttpResponseRedirect(reverse("index"))
